@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 hola soy prueba
+=======
+hola estoy aqui
+>>>>>>> aaa237f1797c4d69ec62f167b0321faefa4e9425
