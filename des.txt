@@ -1,0 +1,86 @@
+- sudo apt update -> actualizar repositorios
+- sudo apt isntall apache2 -y -> instalar apache
+- cat /etc/passwd -> abrir el ficher passwd
+- sudo nano /etc/passwd
+- sudo /etc/init.d/apache2 restart|stop|start|reload -> para reiniciar, parar iniciar y comprobar el sevidor
+- sudo netstat -tulpn | grep apache2 -> ver el puerto que esta utilizando apache
+- sudo apache2 -v -> cuando esta corriendo, ver que version del apache se tiene instalado
+- sudo apachectl -M -> comprobar los modulos instalados
+- sudo ls -l/var/www -> ver los permisos del directorio www
+CONFIGURACION APACHE
+- cd /etc/apache2 -> para accceder a la carpeta etc
+- ls -> mostrar los ficheros de configuracion de apache
+- cd /var/www/ -> carpeta donde se alojan las paginas web
+- ls -> ver los ficheros o paginas web almacenadas dentro de la carpeta
+- cd html -> por ejemplo acceder a html y ls para mostrarlo 
+- sudo nano index.html -> acceder y poder editar el archivo html predeterminado de ejemplo
+- sudo nano /etc/apache2/apache2.conf -> acceder y entrar a los ficheros que se crearon en la instalacion
+- sudo nano /etc/apache2/ports.conf -> para cceder a los ficheros de configuracion de puertos se puede cambiar de 80 a 8080 por ejemplo
+- cd -> para salir de /var/www/html
+- cd /etc/apache2/sies-available -> para entrar en dicho directortio 
+- ls -> mostrar los ficheros de sites-available que son los diseños de la pagina web de apache
+- sudo nano 000-default.conf -> entramos al fichero de despliegues para verlo y tambien poder editarlo, CD ES PARA MOVERSE ENTRE CARPETAS
+- sudo cp 000-default.conf 111-default.conf -> para copiar el fichero 000... en 111 en el mismo directorio y poder toquetearlo
+- sudo service apache2 status -> una vez que se toca algo o se modifica, reiniciamos apache con este comando y con el siguiente vemos el estado
+- sudo service apache2 status
+- sudo nano ports.conf -> con este comando cambiamos el puerte de la condiguracion de apache para que funcione lo del 8080
+ES IMPROTANTE DESACTIVAR LOS SITIOS WEBS ACTIVADOS DEL MOMENTO, UNO A LA VEZ, SE PUEDE DESACTIVAR CON
+- sudo a2dissite cafeteria.conf
+- sudo a2dissite despliegues.conf
+- sudo a2ensite 111-deffault.conf -> con este se activa el sitio para que en el nevagrador se abra, tener el puerto que concuerde en este caso 8080
+- sudo service apache2 reload -> siempre recargar despues de cualquier cambio
+- sudo nano /etc/apache2/sites-available/111-default.conf -> el entrar a que que es editable, ahi hay algo de /var/www/html, en caso que sea otro proyecto, esa ruta se debe cambiar por la de proyecto a utilizar, se tiene que crear previmente
+- sudo nano ports.conf -> volver al puerto de 8080 a 80
+
+CREAR UNA NUEVA CARPETA DENTRO DE WWW DONDE MOSTRAREMOS UN NUEVO PROYECTO O PAGINA WEB
+- (en /etc/apache2/)mkdir /var/www/arbol -> para crear el directorio dentro de www
+- cd arbol, para igresar a arbol
+- sudo nano index.html -> para crear el ficher index que sera el html y aca pegamos el contenido de lo que queramos mostar el codigo en si
+- sudo chown -R www-data:www-data /var/www/arbol -> otrogamos permisos para que apache pueda acceder a los archivos, con el siguiente tambien
+- sudo chmod -R 755 /var/www/arbol
+- cd para salir del directorio
+- cd /etc/apache2/sites-available/ -> para movernos en el directorio de los sitios
+- sudo cp 000-default.conf arbol.conf -> copiamos el 000 default y el nuevo lo llamamos arbol.conf
+- sudo nano arbol.conf -> para acceder a la configuracion de arbol y poder cambiarle la ruta de origen por /var/www/arbol y agregamos un Servername llamado arbol.com y en otros casos el puerto
+- sudo service apache2 reload -> recargar es importante
+- sudo a2dissite 111.default.conf -> para descativar el sitio actualmente activo
+- sudo a2ensite arbol.conf -> para activar el sitio como que queremos mostrar arbol.conf
+**RECARGAMOS
+- sudo nano /etc/hosts -> para entrar a la configuracion del directorio y editar los ficheros hosts el sistema, simplemente se copia la direccion ip, dominio, dominio completo
+**Ejemplo:	127.0.0.1	arbol.com	ww.arbol.com
+COMANDOS DE POSIBLES ERROR:
+- sudo apachectl configtest -> para ver si hay algun error de sintaxis en el comando
+- sudo tail -f /var/log/apache2/error.log -> comprobar los errores de apache con el comando
+
+OTRA PRUEBA LIBRERIA
+
+ANEXO DE HTML DE ERROR
+- cd para volver al inicio
+- cd /etc/apache2 -> para acceder a etc
+- cd /var/www/libreria -> para acceder a libreria 
+- sudo nano error.html -> creamos un html con un titulo que sea el mensaje de error al introducir una direccion invalida
+- cd para volver 
+- cd /etc/apache2/sites-available/ -> para acceder a sites-availables
+- sudo nano libreria.conf -> para configurar el directorio de libreria  agregar el error correspondiente (en sites available)
+ejemplo: abajo de documentRoot ponemos: ErrorDocument 404 /error.html
+- sudo service apache2 reload , para recagrar y funcionara
+
+DIRECTIVA INDEXES
+dentro de la carpeta /var/www/arbol renombramos el index.html por noIndex.html
+- cd, - cd /etc/apache2, - cd /var/www/arbol, - sudo cp index.html noIndex.html, - sudo rm index.html
+se hace la prueba recargando la pagina
+
+DIRECTIVA PHPS
+- sudo apt install php libapache2-mod-php -> para configurar el fichero que lea PHP
+- php -v comprobamos la instalacion
+- cd , volvemos
+- cd /etc/apache2, - cd /www/var/libreria, - sudo nano index.php, - <?php phpinfo(); ?> (escribimos eso en el archivo), recargamos y saldra
+
+SSL
+para que el sitio web funcione a travezs de https con conexion segura
+- sudo apt install apache2 openssl -> para instalar el ssl
+- sudo a2enmod ssl -> para comprobar que el ssl se instalo correctamente
+- recargamos
+- sudo enorme largo, copiar despues
+- rellenar los datos con Es, co, co , Cenec, Cenec, Cenec, #
+
